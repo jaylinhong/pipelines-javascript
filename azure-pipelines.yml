@@ -35,4 +35,10 @@ steps:
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
     reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
   displayName: '发布代码覆盖率报告'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)'
+  displayName: '发布文件到Azure Pipelines'
+  
   
