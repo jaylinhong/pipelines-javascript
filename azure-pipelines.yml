@@ -20,12 +20,19 @@ steps:
     npm run build
   displayName: '安装依赖以及进行构建'
 
-- script: mocha test --reporter mocha-junit-reporter
-  displayName: '运行测试'
+- script: gulp                       # include any additional options that are needed
+  displayName: '运行gulp'
 
 - task: PublishTestResults@2
-  condition: succeededOrFailed()
   inputs:
-    testRunner: JUnit
     testResultsFiles: '**/TEST-RESULTS.xml'
-  displayName: '进行发布测试文件'
+    testRunTitle: 'Test results for JavaScript using gulp'
+  displayName: '发布测试报告'
+
+- task: PublishCodeCoverageResults@1
+  inputs: 
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
+  displayName: '发布代码覆盖率报告'
+  
