@@ -41,14 +41,20 @@ steps:
 #     PathtoPublish: '$(System.DefaultWorkingDirectory)'
 #   displayName: '发布文件到Azure Pipelines'
   
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)'
-    Contents: |
-      **\*.js
-      package.json
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-  displayName: '从工作目录复制必要的文件到暂存目录'
+# - task: CopyFiles@2
+#   inputs:
+#     SourceFolder: '$(System.DefaultWorkingDirectory)'
+#     Contents: |
+#       **\*.js
+#       package.json
+#     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+#   displayName: '从工作目录复制必要的文件到暂存目录'
 
-- task: PublishBuildArtifacts@1
-  displayName: '发布artifact'
+# - task: PublishBuildArtifacts@1
+#   displayName: '发布artifact'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
+  displayName: '为部署web App做准备'
