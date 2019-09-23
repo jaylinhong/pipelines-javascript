@@ -13,9 +13,19 @@ steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
-  displayName: 'Install Node.js'
+  displayName: '安装 Node.js'
 
 - script: |
     npm install
     npm run build
-  displayName: 'npm install and build'
+  displayName: '安装依赖以及进行构建'
+
+- script: mocha test --reporter mocha-junit-reporter
+  displayName: '运行测试'
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testRunner: JUnit
+    testResultsFiles: '**/TEST-RESULTS.xml'
+  displayName: '进行发布测试文件'
