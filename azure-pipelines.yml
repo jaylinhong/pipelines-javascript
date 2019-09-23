@@ -36,9 +36,19 @@ steps:
     reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
   displayName: '发布代码覆盖率报告'
 
-- task: PublishBuildArtifacts@1
+# - task: PublishBuildArtifacts@1
+#   inputs:
+#     PathtoPublish: '$(System.DefaultWorkingDirectory)'
+#   displayName: '发布文件到Azure Pipelines'
+  
+- task: CopyFiles@2
   inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)'
-  displayName: '发布文件到Azure Pipelines'
-  
-  
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: |
+      **\*.js
+      package.json
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  displayName: '从工作目录复制必要的文件到暂存目录'
+
+- task: PublishBuildArtifacts@1
+  displayName: '发布artifact'
